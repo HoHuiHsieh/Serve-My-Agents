@@ -1,61 +1,63 @@
 # Serve My Agents
 
-An OpenAI-compatible API server for AI agents, built with FastAPI.
+*Notes: Code under construction. This repository is for learning and experimentation.*
 
-## Features
+A lightweight, OpenAI-compatible API server for running AI agents, built with FastAPI. The project aims to be a drop-in replacement for the OpenAI chat completions endpoint and supports multiple models, streaming responses, and easy deployment.
 
-- **OpenAI-Compatible API**: Drop-in replacement for OpenAI's chat completion API
-- **Multiple AI Models**: Support for various AI models managed via LangGraph
-- **Streaming Support**: Real-time streaming responses for interactive experiences
-- **FastAPI Framework**: High-performance async API built on FastAPI
-- **Docker Ready**: Easy deployment with Docker and docker-compose
+## Key features
 
-## Quick Start
+- OpenAI-compatible chat completion API
+- Support for multiple AI models (managed via LangGraph)
+- Real-time streaming responses for interactive experiences
+- FastAPI-based asynchronous server for performance
+- Docker-friendly with compose scripts for development and production
 
-### Using Docker (Recommended)
+## Quick start (recommended: Docker)
 
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
    git clone <repository-url>
    cd serve-my-agents
    ```
 
-2. **Start with Docker Compose**
+2. Start with the provided scripts:
    ```bash
-   # For development
+   # Development
    ./docker-dev.sh
 
-   # For production
+   # Production
    ./docker-prod.sh
    ```
 
-3. **Access the API**
-   - API: http://localhost:8000
-   - Documentation: http://localhost:8000/docs
+3. Endpoints:
+   - API root: http://localhost:8000
+   - OpenAPI docs: http://localhost:8000/docs
    - Health check: http://localhost:8000/health
 
-### Manual Installation
+## Manual installation
 
-1. **Install dependencies**
+1. Install dependencies:
    ```bash
    pip install -r requirements.txt
-   pip install -r requirements-dev.txt  # For development
+   pip install -r requirements-dev.txt  # optional: development deps
    ```
 
-2. **Run the server**
+2. Run the server:
    ```bash
    python main.py
    ```
 
-3. **Test the API**
-   ```bash
-   curl -X POST "http://localhost:8000/v1/chat/completions" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "model": "agentic-cot-rag",
-       "messages": [{"role": "user", "content": "Hello!"}]
-     }'
-   ```
+## Example request
+
+Send a chat completion request similar to OpenAI's API:
+```bash
+curl -X POST "http://localhost:8000/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "agentic-cot-rag",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
 
 ## Contact
 
