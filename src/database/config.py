@@ -8,8 +8,15 @@ import os
 class DatabaseSettings(BaseSettings):
     """Database configuration settings."""
     
-    # Database connection
-    database_url: str = "postgresql://ai_agents_user:password@localhost:5432/ai_agents"
+    # Individual database connection components
+    postgres_user: str = "ai_agents_user"
+    postgres_password: str = "password"
+    postgres_db: str = "ai_agents"
+    postgres_host: str = "localhost"
+    postgres_port: int = 5432
+    
+    # Full database URL (optional - constructed from components if not provided)
+    database_url: Optional[str] = None
     async_database_url: Optional[str] = None
     
     # Connection pool settings
@@ -24,8 +31,9 @@ class DatabaseSettings(BaseSettings):
     
     class Config:
         env_file = ".env"
-        env_prefix = "DB_"
+        env_prefix = ""  # No prefix - read POSTGRES_* directly
         case_sensitive = False
+        extra = "ignore"  # Allow extra env vars without validation errors
     
     def get_sync_url(self) -> str:
         """
@@ -34,7 +42,11 @@ class DatabaseSettings(BaseSettings):
         Returns:
             str: Synchronous database connection URL
         """
-        return self.database_url
+        if self.database_url:
+            return self.database_url
+        
+        # Construct from components
+        return f"postgresql://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
     
     def get_async_url(self) -> str:
         """
@@ -46,13 +58,15 @@ class DatabaseSettings(BaseSettings):
         if self.async_database_url:
             return self.async_database_url
         
-        # Convert postgresql:// to postgresql+asyncpg://
-        if self.database_url.startswith("postgresql://"):
-            return self.database_url.replace("postgresql://", "postgresql+asyncpg://", 1)
-        elif self.database_url.startswith("postgres://"):
-            return self.database_url.replace("postgres://", "postgresql+asyncpg://", 1)
+        sync_url = self.get_sync_url()
         
-        return self.database_url
+        # Convert postgresql:// to postgresql+asyncpg://
+        if sync_url.startswith("postgresql://"):
+            return sync_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        elif sync_url.startswith("postgres://"):
+            return sync_url.replace("postgres://", "postgresql+asyncpg://", 1)
+        
+        return sync_url
     
     def get_connection_info(self) -> dict:
         """
@@ -61,28 +75,12 @@ class DatabaseSettings(BaseSettings):
         Returns:
             dict: Connection information without sensitive data
         """
-        url = self.database_url
-        # Parse URL to extract components (hide password)
-        if "://" in url:
-            protocol, rest = url.split("://", 1)
-            if "@" in rest:
-                credentials, location = rest.split("@", 1)
-                user = credentials.split(":")[0] if ":" in credentials else credentials
-                host_port_db = location
-            else:
-                user = "unknown"
-                host_port_db = rest
-            
-            return {
-                "protocol": protocol,
-                "user": user,
-                "location": host_port_db,
-                "pool_size": self.pool_size,
-                "max_overflow": self.max_overflow,
-            }
-        
         return {
-            "url": "invalid",
+            "protocol": "postgresql",
+            "user": self.postgres_user,
+            "host": self.postgres_host,
+            "port": self.postgres_port,
+            "database": self.postgres_db,
             "pool_size": self.pool_size,
             "max_overflow": self.max_overflow,
         }
