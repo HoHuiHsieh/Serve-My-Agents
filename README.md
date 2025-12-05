@@ -20,16 +20,36 @@ A lightweight, OpenAI-compatible API server for running AI agents, built with Fa
    cd serve-my-agents
    ```
 
-2. Start with the provided scripts:
+2. Create a `.env` file with required environment variables:
    ```bash
-   # Development
-   ./docker-dev.sh
+   # Database configuration
+   POSTGRES_USER=ai_agents_user
+   POSTGRES_PASSWORD=your_secure_password
+   POSTGRES_DB=ai_agents
+   POSTGRES_HOST=postgres
+   POSTGRES_PORT=5432
 
-   # Production
-   ./docker-prod.sh
+   # OpenAI API key
+   OPENAI_API_KEY=your_openai_api_key_here
+
+   # Optional: environment and debug settings
+   ENVIRONMENT=development
+   DEBUG=true
    ```
 
-3. Endpoints:
+3. Start with the provided scripts:
+   ```bash
+   # Development
+   ./docker-up.sh dev
+
+   # Production
+   ./docker-up.sh prod
+
+   # Detached mode
+   ./docker-up.sh dev --detach
+   ```
+
+4. Endpoints:
    - API root: http://localhost:8000
    - OpenAPI docs: http://localhost:8000/docs
    - Health check: http://localhost:8000/health
@@ -42,7 +62,9 @@ A lightweight, OpenAI-compatible API server for running AI agents, built with Fa
    pip install -r requirements-dev.txt  # optional: development deps
    ```
 
-2. Run the server:
+2. Set up environment variables (create `.env` file as shown above)
+
+3. Run the server:
    ```bash
    python main.py
    ```
@@ -58,6 +80,12 @@ curl -X POST "http://localhost:8000/v1/chat/completions" \
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
+
+## Contributing & development
+
+- This codebase is intended for learning and experimentation. Contributions are welcome.
+- Run tests and linters if available before submitting PRs.
+- See repository issues for current tasks and roadmap.
 
 ## Contact
 
