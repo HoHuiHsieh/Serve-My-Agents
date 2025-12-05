@@ -31,7 +31,7 @@ class AgenticCoTRAGModelGenerator(BaseModelGenerator):
         }
 
         # Stream response generation
-        for chunk in graph.stream(initial_state, stream_mode="updates", subgraphs=False):
+        for chunk in graph.stream(initial_state, stream_mode="updates", subgraphs=True):
             # Skip empty chunks or pre-model hooks
             if not chunk[0]:
                 continue
