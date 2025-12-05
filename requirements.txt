@@ -1,0 +1,126 @@
+# ====================
+# Web Framework & API
+# ====================
+fastapi[standard]
+starlette
+pydantic
+pydantic-settings
+
+# ====================
+# ASGI Servers
+# ====================
+uvicorn[standard]
+hypercorn[h3]
+
+# ====================
+# HTTP Clients
+# ====================
+httpx
+requests
+
+# ====================
+# Authentication & Security
+# ====================
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt
+PyJWT
+
+# ====================
+# Configuration & Utils
+# ====================
+python-dotenv
+python-multipart
+pyyaml
+
+# ====================
+# Database & ORM
+# ====================
+sqlalchemy
+alembic
+psycopg2-binary
+psycopg[binary,pool]
+
+# ====================
+# LangChain & LangGraph
+# ====================
+langgraph
+langgraph-checkpoint
+langgraph-checkpoint-sqlite
+langgraph-cli[inmem]
+langmem
+langchain
+langchain-core
+langchain-openai
+langchain-community
+langchain-postgres
+langchain-redis
+
+# ====================
+# AI & ML Models
+# ====================
+openai
+tritonclient[grpc]
+open_clip_torch
+
+# ====================
+# Data Science & ML
+# ====================
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+plotly
+
+# ====================
+# Image Processing & Computer Vision
+# ====================
+pillow
+opencv-python
+opencv-python-headless
+
+# ====================
+# Audio Processing
+# ====================
+librosa
+soundfile
+
+# ====================
+# Video Processing
+# ====================
+moviepy
+
+# ====================
+# Natural Language Processing
+# ====================
+nltk
+jieba
+
+# ====================
+# Web Scraping
+# ====================
+beautifulsoup4
+lxml
+
+# ====================
+# Document Processing
+# ====================
+# PDF
+pypdf[crypto]
+
+# Word Documents
+python-docx
+mammoth
+docx2md
+doc2markdown
+
+# Excel
+openpyxl
+xlsxwriter
+xlwings
+
+# Markdown
+pydoc-markdown
+markdown
+    
